@@ -519,31 +519,34 @@
 	}
 	</script>
 	<script>
-	document.getElementById('upload-svg-button').addEventListener('click', function() {
-	  const input = document.createElement('input');
-		input.type = 'file';
-		input.accept = 'image/svg+xml';
-  
-	input.addEventListener('change', function() {
-      const inputFiles = input.files;
-		if (inputFiles.length > 0) {
-		const reader = new FileReader();
-			reader.onload = function(event) {
-        for (let i = 1; i <= 10; i++) {
-			const content = document.getElementById('content' + i);
-			if (content.style.display === 'block') {
-              content.innerHTML = event.target.result;
-            break;
+    const isMobile = /Mobi/i.test(navigator.userAgent);
+    
+    document.getElementById('upload-svg-button').addEventListener('click', function() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/svg+xml, image/svg';
+      input.accept = isMobile ? '.svg+xml' : '.svg, .svg+xml';
+    
+      input.addEventListener('change', function() {
+        const inputFiles = input.files;
+        if (inputFiles.length > 0) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            for (let i = 1; i <= 10; i++) {
+              const content = document.getElementById('content' + i);
+              if (content.style.display === 'block') {
+                content.innerHTML = event.target.result;
+                break;
+              }
             }
+          };
+          reader.readAsText(inputFiles[0]);
         }
-        };
-        reader.readAsText(inputFiles[0]);
-        }
+      });
+    
+      input.click();
     });
-  
-    input.click();
-	});
-    </script>
+	</script>
     <script>
     const button = document.getElementById("fillpath");
 
